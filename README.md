@@ -18,6 +18,8 @@ Search for "key1|key2|key3|etc.". This is slow.
 
 Create a trie, then a regex from that: https://stackoverflow.com/questions/42742810/speed-up-millions-of-regex-replacements-in-python-3/42789508#42789508
 
+* Python library: https://github.com/ZhukovAlexander/triegex, seems broken though (there may be others)
+
 ### Hash map/set (has additional restrictions)
 
 Assumes lines can be split into words that can map to keys. You can then check each of those words against the hashed set of keys.
@@ -34,8 +36,8 @@ Pure Python implementation: https://github.com/vi3k6i5/flashtext
 
 Bit like FlashText, only doesn't have the boundary restriction, can do substrings too.
 
-C + Python implementation: https://pypi.org/project/pyahocorasick/
-Rust implementation (w/SIMD): https://github.com/BurntSushi/aho-corasick
+* C + Python implementation: https://pypi.org/project/pyahocorasick/
+* Rust implementation (w/SIMD): https://github.com/BurntSushi/aho-corasick
 
 ## Second-pass optimizations, if necessary
 
