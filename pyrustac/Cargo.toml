@@ -1,0 +1,15 @@
+[package]
+name = "pyrustac"
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+name = "pyrustac"
+crate-type = ["cdylib"]
+
+[dependencies]
+aho-corasick = "0.7.4"
+
+[dependencies.pyo3]
+version = "0.12.3"
+features = ["extension-module"]
