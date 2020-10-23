@@ -52,13 +52,14 @@ def benchmark_pyahocorasick(LINE):
 
 
 def benchmark_rustac(LINE):
-    from pyrustac import ahocorasick
+    from pyrustac import AC
 
     # TODO This is ... inefficient, should be done better
     keys = "|".join(KEYS)
-    print(ahocorasick(LINE, keys))
+    ac = AC(keys)
+    print(ac.findall(LINE))
 
-    benchmark("ahocorasick(LINE, keys)", locals())
+    benchmark("ac.findall(LINE)", locals())
 
 
 if __name__ == "__main__":
