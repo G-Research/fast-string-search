@@ -51,6 +51,16 @@ def benchmark_pyahocorasick(LINE):
     benchmark("list(automaton.iter(LINE))", locals())
 
 
+def benchmark_rustac(LINE):
+    from pyrustac import ahocorasick
+
+    # TODO This is ... inefficient, should be done better
+    keys = "|".join(KEYS)
+    print(ahocorasick(LINE, keys))
+
+    benchmark("ahocorasick(LINE, keys)", locals())
+
+
 if __name__ == "__main__":
     print("Regex trie")
     benchmark_regex_trie(LINE)
@@ -58,6 +68,10 @@ if __name__ == "__main__":
 
     print("pyahocorasick")
     benchmark_pyahocorasick(LINE)
+    print()
+
+    print("Rust aho-corasick")
+    benchmark_rustac(LINE)
     print()
 
     print("Naive regex")
