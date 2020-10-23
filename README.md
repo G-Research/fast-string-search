@@ -20,7 +20,7 @@ Create a trie, then a regex from that: https://stackoverflow.com/questions/42742
 
 ### Hash map/set (has additional restrictions)
 
-Assumes lines can be split into words that can map to keys. You can then check each of those words against the hashed set of keys. This is O(L * K) plus the overhead of splitting.
+Assumes lines can be split into words that can map to keys. You can then check each of those words against the hashed set of keys.
 
 https://stackoverflow.com/a/42747503/6214034
 
