@@ -44,6 +44,7 @@ Bit like FlashText, only doesn't have the boundary restriction, can do substring
 Supposedly has algorithm much faster than Aho-Corasick.
 
 https://intel.github.io/hyperscan/dev-reference/intro.html
+https://pypi.org/project/hyperscan/
 
 ## Second-pass optimizations, if necessary
 
