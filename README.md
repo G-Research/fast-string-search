@@ -46,6 +46,12 @@ Supposedly has algorithm much faster than Aho-Corasick.
 https://intel.github.io/hyperscan/dev-reference/intro.html
 https://pypi.org/project/hyperscan/
 
+### Teddy
+
+Rust library inspired by Hyperscan but focusing only on the use case we care about, rather than general regex.
+
+https://github.com/jneem/teddy
+
 ## Second-pass optimizations, if necessary
 
 Given this will be used with Pandas, bypassing Python functions altogether to iterate over the strings directly would speed things up.
