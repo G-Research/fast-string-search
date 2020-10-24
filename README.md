@@ -39,6 +39,12 @@ Bit like FlashText, only doesn't have the boundary restriction, can do substring
 * C + Python implementation: https://pypi.org/project/pyahocorasick/
 * Rust implementation (w/SIMD): https://github.com/BurntSushi/aho-corasick
 
+### Hyperscan
+
+Supposedly has algorithm much faster than Aho-Corasick.
+
+https://intel.github.io/hyperscan/dev-reference/intro.html
+
 ## Second-pass optimizations, if necessary
 
 Given this will be used with Pandas, bypassing Python functions altogether to iterate over the strings directly would speed things up.

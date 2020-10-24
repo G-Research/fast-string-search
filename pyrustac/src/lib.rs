@@ -21,7 +21,7 @@ impl AC {
         Ok(self
             .wrappedac
             .find_iter(string)
-            .map(|mat| mat.start())
+            .map(|mat| mat.pattern())
             .collect())
     }
 }
