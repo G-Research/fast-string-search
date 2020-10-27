@@ -41,6 +41,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "flashtext"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46988ed6cf1ce383ea151916955493aa1ab49fe659d88ff8379f4ae4c80d7ceb"
+
+[[package]]
 name = "ghost"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -229,6 +235,7 @@ name = "pyrustac"
 version = "0.1.0"
 dependencies = [
  "aho-corasick",
+ "flashtext",
  "pyo3",
 ]
 

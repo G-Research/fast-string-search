@@ -16,7 +16,7 @@ The set of lines changes frequently.
 * [x] Rust Aho-Corasick (w/Teddy)
 * [x] Hyperscan
 * [x] FlashText (pure Python) — maybe did it wrong? It's _very_ slow, slower than naive regex
-* [ ] Rust FlashText
+* [x] Rust FlashText (even slower than Python!)
 * [ ] RE2
 * [ ] Hash set?
 * [ ] Ragel

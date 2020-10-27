@@ -75,6 +75,7 @@ def benchmark_hyperscan(LINE):
     )
 
     l = []
+
     def on_match(
         id: int, from_: int, to: int, flags: int, context: Optional[Any] = None
     ) -> Optional[bool]:
@@ -92,6 +93,7 @@ def benchmark_hyperscan(LINE):
 
 def benchmark_flashtext(LINE):
     from flashtext import KeywordProcessor
+
     keyword_processor = KeywordProcessor()
     for key in KEYS:
         keyword_processor.add_keyword(key)
@@ -100,27 +102,40 @@ def benchmark_flashtext(LINE):
 
     benchmark("keyword_processor.extract_keywords(LINE)", locals())
 
+
+def benchmark_flashtext_rust(LINE):
+    from pyrustac import FT
+
+    ft = FT()
+    for key in KEYS:
+        ft.add(key)
+
+    print(ft.find_keywords(LINE))
+
+    benchmark("ft.find_keywords(LINE)", locals())
+
+
+def run(title, function):
+    print(f"== {title} ==")
+    function(LINE)
+    print()
+
+
 if __name__ == "__main__":
-    print("Regex trie")
-    benchmark_regex_trie(LINE)
-    print()
+    run("Regex trie", benchmark_regex_trie)
 
-    print("pyahocorasick")
-    benchmark_pyahocorasick(LINE)
-    print()
+    run("pyahocorasick", benchmark_pyahocorasick)
 
-    print("Rust aho-corasick")
-    benchmark_rustac(LINE)
-    print()
+    run("Rust aho-corasick", benchmark_rustac)
 
-    print("Hyperscan (see code for caveats)")
-    benchmark_hyperscan(LINE)
-    print()
+    run("Hyperscan (see code for caveats)", benchmark_hyperscan)
 
-    print("FlashText (in Python)")
-    benchmark_flashtext(LINE)
-    print()
+    print("=== SKIPPING DUE TO SLOWNESS ===")
+    print("FlashText (Rust)")
+    # benchmark_flashtext_rust(LINE)
 
     print("Naive regex")
-    benchmark_regex(LINE)
-    print()
+    # benchmark_regex(LINE)
+
+    print("FlashText (in Python)")
+    # benchmark_flashtext(LINE)
