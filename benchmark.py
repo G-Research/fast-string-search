@@ -90,6 +90,16 @@ def benchmark_hyperscan(LINE):
     benchmark("db.scan(LINE)", locals())
 
 
+def benchmark_flashtext(LINE):
+    from flashtext import KeywordProcessor
+    keyword_processor = KeywordProcessor()
+    for key in KEYS:
+        keyword_processor.add_keyword(key)
+
+    print(keyword_processor.extract_keywords(LINE))
+
+    benchmark("keyword_processor.extract_keywords(LINE)", locals())
+
 if __name__ == "__main__":
     print("Regex trie")
     benchmark_regex_trie(LINE)
@@ -105,6 +115,10 @@ if __name__ == "__main__":
 
     print("Hyperscan (see code for caveats)")
     benchmark_hyperscan(LINE)
+    print()
+
+    print("FlashText (in Python)")
+    benchmark_flashtext(LINE)
     print()
 
     print("Naive regex")

@@ -3,7 +3,7 @@ run: build
 
 .PHONY: build
 build: venv
-	venv/bin/pip install hyperscan pyahocorasick
+	venv/bin/pip install hyperscan pyahocorasick flashtext
 	cd pyrustac && cargo build --release && cp -f target/release/libpyrustac.so ../pyrustac.so
 
 venv:

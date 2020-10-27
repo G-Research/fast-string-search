@@ -10,7 +10,20 @@ The set of lines changes frequently.
 
 ## Approaches
 
-### Regex
+* [x] Naive Python regex
+* [x] Python regex built from trie
+* [x] pyahocorasick
+* [x] Rust Aho-Corasick (w/Teddy)
+* [x] Hyperscan
+* [x] FlashText (pure Python) — maybe did it wrong? It's _very_ slow, slower than naive regex
+* [ ] Rust FlashText
+* [ ] RE2
+* [ ] Hash set?
+* [ ] Ragel
+
+## Approaches with details
+
+### Python regex
 
 Search for "key1|key2|key3|etc.". This is slow.
 
@@ -18,7 +31,8 @@ Search for "key1|key2|key3|etc.". This is slow.
 
 Create a trie, then a regex from that: https://stackoverflow.com/questions/42742810/speed-up-millions-of-regex-replacements-in-python-3/42789508#42789508
 
-* Python library: https://github.com/ZhukovAlexander/triegex, seems broken though (there may be others)
+* Python library: https://github.com/ZhukovAlexander/triegex, seems possibly broken though (there may be others)
+* Ended up using the StackOverflow version
 
 ### Hash map/set (has additional restrictions)
 
@@ -46,6 +60,13 @@ Supposedly has algorithm much faster than Aho-Corasick.
 https://intel.github.io/hyperscan/dev-reference/intro.html
 https://pypi.org/project/hyperscan/
 
+### RE2
+
+Google regex library, supposedly quite fast.
+
+https://github.com/google/re2
+https://pypi.org/project/re2/
+
 ### Teddy
 
 Rust library inspired by Hyperscan but focusing only on the use case we care about, rather than general regex.
@@ -53,6 +74,14 @@ Rust library inspired by Hyperscan but focusing only on the use case we care abo
 https://github.com/jneem/teddy
 
 Apparently the Rust implementation of aho-corasick actually includes it built-in, so benchmarking that.
+
+### Ragel
+
+"Ragel compiles executable finite state machines from regular languages."
+Basically would involve running a C compiler on the generated state machine!
+
+http://www.colm.net/open-source/ragel/
+https://github.com/bwhmather/ragel-py-ext
 
 ## Second-pass optimizations, if necessary
 
