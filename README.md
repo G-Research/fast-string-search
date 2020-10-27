@@ -52,6 +52,8 @@ Rust library inspired by Hyperscan but focusing only on the use case we care abo
 
 https://github.com/jneem/teddy
 
+Apparently the Rust implementation of aho-corasick actually includes it built-in, so benchmarking that.
+
 ## Second-pass optimizations, if necessary
 
 Given this will be used with Pandas, bypassing Python functions altogether to iterate over the strings directly would speed things up.

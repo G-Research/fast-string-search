@@ -1,3 +1,4 @@
+from typing import Optional, Any
 import timeit
 import time
 
@@ -62,6 +63,33 @@ def benchmark_rustac(LINE):
     benchmark("ac.findall(LINE)", locals())
 
 
+def benchmark_hyperscan(LINE):
+    import hyperscan
+
+    db = hyperscan.Database()
+    db.compile(
+        expressions=[k.encode("utf-8") for k in KEYS],
+        ids=list(range(len(KEYS))),
+        elements=len(KEYS),
+        flags=0,
+    )
+
+    l = []
+    def on_match(
+        id: int, from_: int, to: int, flags: int, context: Optional[Any] = None
+    ) -> Optional[bool]:
+        l.append(id)
+
+    LINE = LINE.encode("utf-8")
+    db.scan(LINE, match_event_handler=on_match)
+    print(l)
+
+    # TODO the Python hyperscan API I found initially is extremely inefficient,
+    # doing a Python callback on every match. So not doing any match handling
+    # here, just to get a sense of raw performance.
+    benchmark("db.scan(LINE)", locals())
+
+
 if __name__ == "__main__":
     print("Regex trie")
     benchmark_regex_trie(LINE)
@@ -73,6 +101,10 @@ if __name__ == "__main__":
 
     print("Rust aho-corasick")
     benchmark_rustac(LINE)
+    print()
+
+    print("Hyperscan (see code for caveats)")
+    benchmark_hyperscan(LINE)
     print()
 
     print("Naive regex")
