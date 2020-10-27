@@ -1,11 +1,13 @@
 from typing import Optional, Any
 import timeit
 import time
+import random
 
 KEYS = ["abc", "hello", "world", "aardvark", "fish", "what", "arbitrarymonkey", "birds"]
 KEYS += ["host%d" % i for i in range(500)]
+KEYS += [str(random.random()) for i in range(500)]
 
-LINE = "arbitrarymonkey says hello to fish host76, my friend, but why???"
+LINE = "arbitrarymonkey says hello to fish host76, 0.123 my friend, but why???"
 
 
 def benchmark(statement, variables):
