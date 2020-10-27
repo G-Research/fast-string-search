@@ -10,6 +10,8 @@ The set of lines changes frequently.
 
 ## Approaches
 
+For each line, apply a function:
+
 * [x] Naive Python regex
 * [x] Python regex built from trie
 * [x] pyahocorasick
@@ -19,7 +21,11 @@ The set of lines changes frequently.
 * [x] Rust FlashText (even slower than Python!)
 * [ ] RE2
 * [ ] Hash set?
-* [ ] Ragel
+
+Very different approaches:
+
+* [ ] Finite state transducers (operates on the lines too, not just keys!)
+* [ ] Ragel (compiles the per-line function with C compiler)
 
 ## Approaches with details
 
@@ -82,6 +88,17 @@ Basically would involve running a C compiler on the generated state machine!
 
 http://www.colm.net/open-source/ragel/
 https://github.com/bwhmather/ragel-py-ext
+
+### Finite state transducers
+
+1. Compile the millions of lines into a state machine.
+2. Compile the search regex into a state machine.
+3. Intersect them.
+4. PROFIT.
+
+https://blog.burntsushi.net/transducers/
+
+Example gives doing step 1 in 18 seconds on 16 million lines, so this seems plausible.
 
 ## Second-pass optimizations, if necessary
 

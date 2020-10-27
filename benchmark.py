@@ -12,7 +12,7 @@ LINE = "arbitrarymonkey says hello to fish host76, 0.123 my friend, but why???"
 
 def benchmark(statement, variables):
     start = time.time()
-    timeit.timeit(statement, globals=variables)
+    timeit.timeit(statement, globals=variables, number=1_000_000)
     print(time.time() - start)
 
 
@@ -124,6 +124,10 @@ def run(title, function):
 
 
 if __name__ == "__main__":
+    print("= PER-LINE ALGOS, RUN 1 MILLION TIMES =")
+    print("These algorithms scale linearly with number of lines.")
+    print()
+
     run("Regex trie", benchmark_regex_trie)
 
     run("pyahocorasick", benchmark_pyahocorasick)
