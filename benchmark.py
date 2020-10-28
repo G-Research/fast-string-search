@@ -9,10 +9,21 @@ KEYS += [str(random.random()) for i in range(500)]
 
 LINE = "arbitrarymonkey says hello to fish host76, 0.123 my friend, but why???"
 
+try:
+    raise ImportError("Gonna skip FST")
+    from sentences import SENTENCES
+    SENTENCES.append(LINE)
+    SENTENCES.sort()  # needed by FST
+except ImportError:
+    SENTENCES = []
 
+NUMBER_LINES = len(SENTENCES) if SENTENCES else 1_000_000
+
+
+# TODO use the sentences, don't just repeat LINE
 def benchmark(statement, variables):
     start = time.time()
-    timeit.timeit(statement, globals=variables, number=1_000_000)
+    timeit.timeit(statement, globals=variables, number=NUMBER_LINES)
     print(time.time() - start)
 
 
@@ -123,8 +134,19 @@ def run(title, function):
     print()
 
 
+def benchmark_fst():
+    from rust_fst import Set
+
+    start = time.time()
+    lines = Set.from_iter(SENTENCES, path="temp.fst")
+    for key in KEYS:
+        matches = list(lines.search(key, max_dist=0))
+    print(time.time() - start)
+    #print(matches)
+
+
 if __name__ == "__main__":
-    print("= PER-LINE ALGOS, RUN 1 MILLION TIMES =")
+    print(f"= PER-LINE ALGOS, RUN {NUMBER_LINES} TIMES =")
     print("These algorithms scale linearly with number of lines.")
     print()
 
@@ -135,6 +157,13 @@ if __name__ == "__main__":
     run("Rust aho-corasick", benchmark_rustac)
 
     run("Hyperscan (see code for caveats)", benchmark_hyperscan)
+
+    if SENTENCES:
+        print("= FST, a very different algorithm =")
+        benchmark_fst()
+    else:
+        print("= NLTK corpuses not available, skipping FST. =")
+        print()
 
     print("=== SKIPPING DUE TO SLOWNESS ===")
     print("FlashText (Rust)")
