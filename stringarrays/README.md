@@ -18,3 +18,19 @@ Imagine if all the strings were in a contiguous chunk of memory, with a separate
 Some operations would be difficult to do efficiently... but most operations you are likely to do in Pandas would involve just creating a new contiguous chunk of memory with different results.
 
 Other alternatives include ropes, and likely other data structures.
+
+## Things to investigate
+
+How slow is e.g. Python upper()?
+
+Is list-of-strings extension type really much faster than numpy aray/pandas? Why?
+
+Try mypyc
+
+Tradeoff between memory vs. CPU (operating on contiguous chunk when you have e.g. `lambda s: s.upper().strip()` will use more memory than operating on small strings).
+
+Can cython go faster?
+
+parallelism
+
+numexpr!
