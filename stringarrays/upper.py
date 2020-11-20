@@ -5,9 +5,20 @@ import pandas as pd
 STRINGS = ["{} hello world how are you".format(i) for i in range(1_000_000)]
 
 
+class ListStringArray:
+    def __init__(self, values: list):
+        self.array : list = values
+
+    def __getitem__(self, i: int) -> str:
+        return self.array[i]
+
+    def upper(self) -> "ListStringArray":
+        return ListStringArray([s.upper() for s in self.array])
+
+
 class NumPyStringArray:
     def __init__(self, values):
-        self.array = np.ndarray((1_000_000,), dtype=np.object)
+        self.array = np.ndarray((len(values),), dtype=np.object)
         for i, v in enumerate(values):
             self.array[i] = v
 
@@ -15,9 +26,9 @@ class NumPyStringArray:
         return self.array[i]
 
     def upper(self):
-        array = self.array.copy()
+        array = np.ndarray((len(self.array),), dtype=np.object)
         for i in range(len(array)):
-            array[i] = array[i].upper()
+            array[i] = self.array[i].upper()
         result = NumPyStringArray.__new__(NumPyStringArray)
         result.array = array
         return result
@@ -68,4 +79,5 @@ def pandas():
 
 benchmark("Pandas", pandas)
 benchmark("NumPy array of strings", run_with_class, NumPyStringArray)
+benchmark("List of strings", run_with_class, ListStringArray)
 benchmark("Contiguous string", run_with_class, ContiguousStringArray)
