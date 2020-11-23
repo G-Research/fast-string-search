@@ -1,0 +1,11 @@
+from typing import List, Callable
+
+
+def transform(arr: List[str], f: Callable[[str],str]) -> List[str]:
+    return [f(s) for s in arr]
+
+def upper(s: str) -> str:
+    return str.upper(s)
+
+def transform_upper(arr: List[str]) -> List[str]:
+    return transform(arr, upper)

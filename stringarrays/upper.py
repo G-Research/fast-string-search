@@ -5,7 +5,8 @@ import pyximport
 
 pyximport.install()
 
-from cython_array import transform_upper
+import cython_array
+import mypy_upper
 
 
 STRINGS = ["{} hello world how are you".format(i) for i in range(1_000_000)]
@@ -50,10 +51,22 @@ class CythonNumPyStringArray:
         return self.array[i]
 
     def upper(self):
-        array = transform_upper(self.array)
-        result = NumPyStringArray.__new__(NumPyStringArray)
+        array = cython_array.transform_upper(self.array)
+        result = CythonNumPyStringArray.__new__(NumPyStringArray)
         result.array = array
         return result
+
+
+class MypycListStringArray:
+    def __init__(self, values):
+        self.array = values
+
+    def __getitem__(self, i):
+        return self.array[i]
+
+    def upper(self):
+        array = mypy_upper.transform_upper(self.array)
+        return MypycListStringArray(array)
 
 
 class ContiguousStringArray:
@@ -103,5 +116,6 @@ def pandas():
 benchmark("Pandas", pandas)
 benchmark("NumPy array of strings", run_with_class, NumPyStringArray)
 benchmark("Cython NumPy array of strings", run_with_class, CythonNumPyStringArray)
+benchmark("Mypyc List of strings", run_with_class, MypycListStringArray)
 benchmark("List of strings", run_with_class, ListStringArray)
 benchmark("Contiguous string", run_with_class, ContiguousStringArray)
