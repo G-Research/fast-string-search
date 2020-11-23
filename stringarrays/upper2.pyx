@@ -1,8 +1,10 @@
 cimport numpy as np
+cimport cython
 
 import time
 import numpy as np
 import pandas as pd
+
 
 STRINGS = ["{} hello world how are you".format(i) for i in range(1_000_000)]
 
@@ -30,6 +32,7 @@ cdef class NumPyStringArray:
     cdef np.ndarray array
 
     def __init__(self, values):
+        cdef int i
         if isinstance(values, np.ndarray):
             self.array = values
         else:
@@ -37,7 +40,7 @@ cdef class NumPyStringArray:
             for i, v in enumerate(values):
                 self.array[i] = v
 
-    def __getitem__(self, i):
+    def __getitem__(self, int i):
         return self.array[i]
 
     def upper(self):

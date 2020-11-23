@@ -1,13 +1,19 @@
 import time
 import numpy as np
 import pandas as pd
+import pyximport
+
+pyximport.install()
+
+from cython_array import transform_upper
+
 
 STRINGS = ["{} hello world how are you".format(i) for i in range(1_000_000)]
 
 
 class ListStringArray:
     def __init__(self, values: list):
-        self.array : list = values
+        self.array: list = values
 
     def __getitem__(self, i: int) -> str:
         return self.array[i]
@@ -29,6 +35,22 @@ class NumPyStringArray:
         array = np.ndarray((len(self.array),), dtype=np.object)
         for i in range(len(array)):
             array[i] = self.array[i].upper()
+        result = NumPyStringArray.__new__(NumPyStringArray)
+        result.array = array
+        return result
+
+
+class CythonNumPyStringArray:
+    def __init__(self, values):
+        self.array = np.ndarray((len(values),), dtype=np.object)
+        for i, v in enumerate(values):
+            self.array[i] = v
+
+    def __getitem__(self, i):
+        return self.array[i]
+
+    def upper(self):
+        array = transform_upper(self.array)
         result = NumPyStringArray.__new__(NumPyStringArray)
         result.array = array
         return result
@@ -72,12 +94,14 @@ def pandas():
     series = pd.Series(STRINGS)
     print("    ", series.iloc[2], series.iloc[356])
     start = time.time()
-    #series2 = series.str.upper()
+    # series2 = series.str.upper()
     series2 = pd.Series(s.upper() for s in series.tolist())
     print(f"→ upper() took {time.time() - start}")
     print("    ", series2.iloc[2], series2.iloc[356])
 
+
 benchmark("Pandas", pandas)
 benchmark("NumPy array of strings", run_with_class, NumPyStringArray)
+benchmark("Cython NumPy array of strings", run_with_class, CythonNumPyStringArray)
 benchmark("List of strings", run_with_class, ListStringArray)
 benchmark("Contiguous string", run_with_class, ContiguousStringArray)

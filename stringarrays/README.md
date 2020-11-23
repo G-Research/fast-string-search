@@ -21,7 +21,7 @@ Other alternatives include ropes, and likely other data structures.
 
 ## Things to investigate
 
-How slow is e.g. Python upper()?
+How slow is e.g. Python upper()? It's not slow at all, seemingly.
 
 Is list-of-strings extension type really much faster than numpy aray/pandas? Why?
 
