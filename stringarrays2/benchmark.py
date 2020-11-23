@@ -3,7 +3,7 @@ import time
 
 import pyximport
 
-pyximport.install()
+pyximport.install(language_level=3)
 
 import numpy as np
 
@@ -23,7 +23,7 @@ def measure(what, f):
 
 
 def replace_then_upper(s: str) -> str:
-    return s.replace("l", "").upper()
+    return s.replace("l", "").upper()[1:-1]
 
 
 measure("Pandas apply()", lambda: SERIES.apply(replace_then_upper))

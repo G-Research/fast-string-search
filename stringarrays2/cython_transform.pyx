@@ -1,3 +1,7 @@
+cdef extern from "Python.h":
+    str PyUnicode_Replace(str s, str substr, str replstr, Py_ssize_t maxcount)
+    str PyUnicode_Upper(str s)
+
 cimport cython
 cimport numpy as np
 import numpy as np
@@ -31,7 +35,7 @@ cdef np.ndarray transform_memoryview(str[:] arr, string_transform f):
 
 
 cdef str replace_then_upper(str s):
-    return s.replace("l", "").upper()
+    return s.replace("l", "").upper()[1:-1]
 
 
 def transform_replace_then_upper(arr: np.ndarray) -> np.ndarray:
