@@ -19,13 +19,21 @@ Some operations would be difficult to do efficiently... but most operations you 
 
 Other alternatives include ropes, and likely other data structures.
 
-## Things to investigate
+## Some conclusions
+
+mypyc doesn't add much.
 
 How slow is e.g. Python upper()? It's not slow at all, seemingly.
 
-Is list-of-strings extension type really much faster than numpy aray/pandas? Why?
+Cython helps, but doing multiple calls in a row adds a lot of overhead.
 
-Try mypyc
+Rust upper() is slower, ASCII upper() is not. Quite possibly once you have lots of operations in one go it'll be overall faster given some sort of series-level API instead of "loop over all the strings". Still cost of converting back/forth between numpy arrays (not sure when numpy does that).
+
+Lists are faster than numpy arrays, not really clear why.
+
+## Things to investigate
+
+Is list-of-strings extension type really much faster than numpy aray/pandas? Why?
 
 Tradeoff between memory vs. CPU (operating on contiguous chunk when you have e.g. `lambda s: s.upper().strip()` will use more memory than operating on small strings).
 
