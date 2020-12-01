@@ -2,10 +2,11 @@ import pandas as pd
 import time
 
 import pyximport
+import numpy as np
+import numba
+from numba.typed import List as NumbaList
 
 pyximport.install(language_level=3)
-
-import numpy as np
 
 import cython_transform
 
@@ -26,13 +27,23 @@ def replace_then_upper(s: str) -> str:
     return s.replace("l", "").upper()[1:-1]
 
 
+@numba.njit
+def _numba_replace_then_upper(in_arr):
+    return [s.replace("l", "").upper()[1:-1] for s in in_arr]
+
+def numba_apply(s: pd.Series, f) -> pd.Series:
+    result = f(NumbaList(s.values))
+    return pd.Series(result)
+
+
 measure("Pandas apply()", lambda: SERIES.apply(replace_then_upper))
 measure(
     "Pandas tolist()",
     lambda: pd.Series(replace_then_upper(s) for s in SERIES.tolist()),
 )
 measure(
-    "Pandas .str", lambda: SERIES.str.replace("l", "").str.upper(),
+    "Pandas .str",
+    lambda: SERIES.str.replace("l", "").str.upper(),
 )
 measure(
     "Cython (naive)",
@@ -44,6 +55,8 @@ measure(
         cython_transform.transform_memoryview_replace_then_upper(SERIES.values)
     ),
 )
+# measure("Numba (first time)", lambda: numba_apply(SERIES, _numba_replace_then_upper))
+# measure("Numba (second time)", lambda: numba_apply(SERIES, _numba_replace_then_upper))
 
 # Technically cheating, but one could probably have extension array for Pandas
 # with this kind of array.
