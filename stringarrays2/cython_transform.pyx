@@ -35,7 +35,7 @@ cdef np.ndarray transform_memoryview(str[:] arr, string_transform f):
 
 
 cdef str replace_then_upper(str s):
-    return s.replace("l", "").upper()[1:-1]
+    return s.replace("l", "").upper()
 
 
 def transform_replace_then_upper(arr: np.ndarray) -> np.ndarray:
