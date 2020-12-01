@@ -24,12 +24,12 @@ def measure(what, f):
 
 
 def replace_then_upper(s: str) -> str:
-    return s.replace("l", "").upper()[1:-1]
+    return s.replace("l", "").upper()
 
 
 @numba.njit
 def _numba_replace_then_upper(in_arr):
-    return [s.replace("l", "").upper()[1:-1] for s in in_arr]
+    return [s.replace("l", "").upper() for s in in_arr]
 
 def numba_apply(s: pd.Series, f) -> pd.Series:
     result = f(NumbaList(s.values))
