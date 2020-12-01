@@ -27,9 +27,16 @@ def replace_then_upper(s: str) -> str:
     return s.replace("l", "").upper()
 
 
+def replace_then_upper_less_getattr(
+    s: str, replace=str.replace, upper=str.upper
+) -> str:
+    return upper(replace(s, "l", ""))
+
+
 @numba.njit
 def _numba_replace_then_upper(in_arr):
     return [s.replace("l", "").upper() for s in in_arr]
+
 
 def numba_apply(s: pd.Series, f) -> pd.Series:
     result = f(NumbaList(s.values))
@@ -37,6 +44,7 @@ def numba_apply(s: pd.Series, f) -> pd.Series:
 
 
 measure("Pandas apply()", lambda: SERIES.apply(replace_then_upper))
+measure("Pandas apply() less getattr", lambda: SERIES.apply(replace_then_upper_less_getattr))
 measure(
     "Pandas tolist()",
     lambda: pd.Series(replace_then_upper(s) for s in SERIES.tolist()),
