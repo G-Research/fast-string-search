@@ -1,0 +1,6 @@
+name: python37
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7
+  - rust=1.48.0
