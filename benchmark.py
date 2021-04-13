@@ -76,6 +76,13 @@ def benchmark_rustac(LINE):
     benchmark("ac.findall(LINE)", locals())
 
 
+def benchmark_cyac(LINE):
+    from cyac import AC
+
+    ac = AC.build(KEYS)
+    print(list(ac.match(LINE)))
+    benchmark("list(ac.match(LINE))", locals())
+
 def benchmark_hyperscan(LINE):
     import hyperscan
 
@@ -150,11 +157,13 @@ if __name__ == "__main__":
     print("These algorithms scale linearly with number of lines.")
     print()
 
-    run("Regex trie", benchmark_regex_trie)
+    #run("Regex trie", benchmark_regex_trie)
 
     run("pyahocorasick", benchmark_pyahocorasick)
 
     run("Rust aho-corasick", benchmark_rustac)
+
+    run("Cyac", benchmark_cyac)
 
     run("Hyperscan (see code for caveats)", benchmark_hyperscan)
 
